@@ -7,12 +7,13 @@ class PreviewDrinksSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 30,
-        horizontal: 30,
-      ),
-      sliver: SliverToBoxAdapter(
+    return SliverToBoxAdapter(
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(
+          vertical: 30,
+          horizontal: 30,
+        ),
         child: Row(
           children: const [
             Expanded(

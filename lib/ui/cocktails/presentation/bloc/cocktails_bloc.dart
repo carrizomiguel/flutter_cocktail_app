@@ -26,14 +26,15 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
     Emitter emit,
   ) async {
     emit(state.copyWith(
-      status: CocktailsStatus.loading,
+      categoryStatus: CocktailsStatus.loading,
+
     ));
     final result = await repository.getCategories();
     result.when(
       ok: (list) {
         categorySelected = list.first;
         emit(state.copyWith(
-          status: CocktailsStatus.success,
+          categoryStatus: CocktailsStatus.success,
           categories: list,
         ));
         add(CocktailsGetDrinksByCategory(
@@ -41,7 +42,7 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
         ));
       },
       err: (failure) => emit(state.copyWith(
-        status: CocktailsStatus.error,
+        categoryStatus: CocktailsStatus.error,
       )),
     );
   }
@@ -51,7 +52,7 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
     Emitter emit,
   ) async {
     emit(state.copyWith(
-      status: CocktailsStatus.loading,
+      drinksStatus: CocktailsStatus.loading,
     ));
     final result = await repository.getDrinksByCategory(
       event.category,
@@ -60,7 +61,7 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
       ok: (list) {
         drinkPreviewSelected = list.first;
         emit(state.copyWith(
-          status: CocktailsStatus.success,
+          drinksStatus: CocktailsStatus.success,
           drinks: list,
         ));
         add(CocktailsGetDrinkById(
@@ -68,7 +69,7 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
         ));
       },
       err: (failure) => emit(state.copyWith(
-        status: CocktailsStatus.error,
+        drinksStatus: CocktailsStatus.error,
       )),
     );
   }
@@ -78,20 +79,23 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
     Emitter emit,
   ) async {
     emit(state.copyWith(
-      status: CocktailsStatus.loading,
+      drinkPreviewStatus: CocktailsStatus.loading,
     ));
     final result = await repository.getDrinkById(
       event.id,
     );
     result.when(
       ok: (drink) {
+        drinkPreviewSelected = state.drinks.firstWhere(
+          (e) => e.idDrink == event.id,
+        );
         emit(state.copyWith(
-          status: CocktailsStatus.success,
+          drinkPreviewStatus: CocktailsStatus.success,
           drink: drink,
         ));
       },
       err: (failure) => emit(state.copyWith(
-        status: CocktailsStatus.error,
+        drinkPreviewStatus: CocktailsStatus.error,
       )),
     );
   }

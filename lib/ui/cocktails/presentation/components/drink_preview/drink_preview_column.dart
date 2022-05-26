@@ -14,7 +14,7 @@ class DrinkPreviewColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CocktailsBloc, CocktailsState>(
       builder: (context, state) {
-        switch (state.status) {
+        switch (state.drinkPreviewStatus) {
           case CocktailsStatus.loading:
             return const DrinkPreviewLoading();
           case CocktailsStatus.success:

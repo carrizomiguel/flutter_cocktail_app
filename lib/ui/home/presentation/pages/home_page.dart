@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cocktail_app/ui/cocktails/presentation/components/drinks_preview_list.dart';
 import 'package:flutter_cocktail_app/ui/home/presentation/components/categories_section.dart';
 import 'package:flutter_cocktail_app/ui/home/presentation/components/custom_search_section.dart';
+import 'package:flutter_cocktail_app/ui/home/presentation/components/drinks_card_list.dart';
 import 'package:flutter_cocktail_app/ui/home/presentation/components/preview_drinks_selector.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,15 +36,7 @@ class HomeBody extends StatelessWidget {
           CustomSearchSection(),
           CategoriesSection(),
           PreviewDrinksSelector(),
-          SliverToBoxAdapter(
-            child: Placeholder(),
-          ),
-          SliverToBoxAdapter(
-            child: Placeholder(),
-          ),
-          SliverToBoxAdapter(
-            child: Placeholder(),
-          ),
+          DrinksCardList(),
         ],
       ),
     );

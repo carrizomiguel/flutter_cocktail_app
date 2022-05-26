@@ -91,9 +91,9 @@ class DrinkModel {
 class Ingredient {
   Ingredient({
     required this.name,
-    required this.measure,
+    this.measure,
   });
 
   final String name;
-  final String measure;
+  final String? measure;
 }

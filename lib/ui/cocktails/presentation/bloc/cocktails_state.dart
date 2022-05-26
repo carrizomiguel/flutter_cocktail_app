@@ -8,25 +8,33 @@ enum CocktailsStatus {
 
 class CocktailsState extends Equatable {
   const CocktailsState({
-    this.status = CocktailsStatus.loading,
+    this.categoryStatus = CocktailsStatus.loading,
+    this.drinksStatus = CocktailsStatus.loading,
+    this.drinkPreviewStatus = CocktailsStatus.loading,
     this.categories = const [],
     this.drinks = const [],
     this.drink,
   });
   
-  final CocktailsStatus status;
+  final CocktailsStatus categoryStatus;
+  final CocktailsStatus drinksStatus;
+  final CocktailsStatus drinkPreviewStatus;
   final List<String> categories;
   final List<ShortDrinkModel> drinks;
   final DrinkModel? drink;
 
   CocktailsState copyWith({
-    CocktailsStatus? status,
+    CocktailsStatus? categoryStatus,
+    CocktailsStatus? drinksStatus,
+    CocktailsStatus? drinkPreviewStatus,
     List<String>? categories,
     List<ShortDrinkModel>? drinks,
     DrinkModel? drink,
   }) {
     return CocktailsState(
-      status: status ?? this.status,
+      categoryStatus: categoryStatus ?? this.categoryStatus,
+      drinksStatus: drinksStatus ?? this.drinksStatus,
+      drinkPreviewStatus: drinkPreviewStatus ?? this.drinkPreviewStatus,
       categories: categories ?? this.categories,
       drinks: drinks ?? this.drinks,
       drink: drink ?? this.drink,
@@ -35,7 +43,9 @@ class CocktailsState extends Equatable {
 
   @override
   List<Object?> get props => [
-    status,
+    categoryStatus,
+    drinksStatus,
+    drinkPreviewStatus,
     categories,
     drinks,
     drink,

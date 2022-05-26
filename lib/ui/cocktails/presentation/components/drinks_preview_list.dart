@@ -14,7 +14,7 @@ class DrinksPreviewList extends StatelessWidget {
         final cocktailsBloc = context.read<CocktailsBloc>();
         final selectedDrink = cocktailsBloc.drinkPreviewSelected.idDrink;
 
-        switch (state.status) {
+        switch (state.drinksStatus) {
           case CocktailsStatus.loading:
             return ListView.builder(
               itemCount: 5,
@@ -43,29 +43,36 @@ class DrinksPreviewList extends StatelessWidget {
                   imageBuilder: (context, imageProvider) {
                     final isSelected = selectedDrink == drink.idDrink;
 
-                    return Container(
-                      height: 85,
-                      margin: EdgeInsets.only(
-                        top: index == 0 ? 0 : 20,
-                      ),
-                      padding: EdgeInsets.all(
-                        isSelected ? 5 : 0,
-                      ),
+                    return GestureDetector(
+                      onTap: () {
+                        cocktailsBloc.add(CocktailsGetDrinkById(
+                          id: drink.idDrink,
+                        ));
+                      },
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+                        height: 85,
+                        margin: EdgeInsets.only(
+                          top: index == 0 ? 0 : 20,
+                        ),
+                        padding: EdgeInsets.all(
+                          isSelected ? 5 : 0,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: isSelected ? Colors.black : Colors.white,
-                          width: isSelected ? 1 : 0,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: isSelected ? Colors.black : Colors.white,
+                            width: isSelected ? 1 : 0,
+                          ),
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                        borderRadius: BorderRadius.circular(25),
                       ),
                     );
                   },
