@@ -1,0 +1,1 @@
+class BadRequestException implements Exception {}
