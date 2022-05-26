@@ -49,7 +49,8 @@ class DrinksPreviewList extends StatelessWidget {
                           id: drink.idDrink,
                         ));
                       },
-                      child: Container(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
                         height: 85,
                         margin: EdgeInsets.only(
                           top: index == 0 ? 0 : 20,
@@ -73,6 +74,16 @@ class DrinksPreviewList extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(25),
                         ),
+                      ),
+                    );
+                  },
+                  placeholder: (context, url) {
+                    return ShimmerLoading(
+                      height: index == 0 ? 85 : 105,
+                      borderRadius: 20,
+                      margin: EdgeInsets.only(
+                        top: index == 0 ? 0 : 20,
+                        // bottom: 20,
                       ),
                     );
                   },

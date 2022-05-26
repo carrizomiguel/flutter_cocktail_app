@@ -12,6 +12,9 @@ abstract class CocktailsRepository {
     String category,
   );
   Future<Result<DrinkModel, Failure>> getDrinkById(String id);
+  Future<Result<List<ShortDrinkModel>, Failure>> getWantedDrinks(
+    String key,
+  );
 }
 
 class CocktailsRepositoryImpl implements CocktailsRepository {
@@ -61,6 +64,24 @@ class CocktailsRepositoryImpl implements CocktailsRepository {
       try {
         final remote = await remoteDataSource.getDrinkById(
           id,
+        );
+        return Result.ok(remote);
+      } on BadRequestException {
+        return Result.err(BadRequestFailure());
+      }
+    } else {
+      return Result.err(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Result<List<ShortDrinkModel>, Failure>> getWantedDrinks(
+    String key,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remote = await remoteDataSource.getWantedDrinks(
+          key,
         );
         return Result.ok(remote);
       } on BadRequestException {

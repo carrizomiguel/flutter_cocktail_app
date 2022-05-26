@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_cocktail_app/ui/cocktails/data/models/drink_model.dart';
 import 'package:flutter_cocktail_app/ui/cocktails/presentation/bloc/cocktails_bloc.dart';
 import 'package:flutter_cocktail_app/ui/cocktails/presentation/components/drink_preview/drink_preview_loading.dart';
 import 'package:flutter_cocktail_app/ui/cocktails/presentation/components/ingredients_little_preview.dart';
+import 'package:flutter_cocktail_app/ui/cocktails/presentation/pages/drink_detail_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DrinkPreviewColumn extends StatelessWidget {
@@ -73,25 +75,39 @@ class DrinkPreviewContent extends StatelessWidget {
           ingredients: drink.ingredients,
         ),
         const SizedBox(height: 20),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text(
-              'View Details',
-              style: TextStyle(
-                color: Colors.black,
+        OpenContainer(
+          closedElevation: 0,
+          closedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          transitionType: ContainerTransitionType.fadeThrough,
+          openBuilder: (context, action) => const DrinkDetailPage(),
+          closedBuilder: (_, action) => SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                final cocktailsBloc = context.read<CocktailsBloc>();
+                cocktailsBloc.add(CocktailsGetDrinkById(
+                  id: drink.idDrink,
+                ));
+                action();
+              },
+              child: const Text(
+                'View Details',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
               ),
-            ),
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              primary: Colors.white,
-              side: const BorderSide(
-                color: Colors.black,
-                width: 1,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                primary: Colors.white,
+                side: const BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
           ),

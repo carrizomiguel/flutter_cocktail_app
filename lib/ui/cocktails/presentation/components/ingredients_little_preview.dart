@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cocktail_app/core/network/api.dart';
 import 'package:flutter_cocktail_app/ui/cocktails/data/models/drink_model.dart';
 
 class IngredientsLittlePreview extends StatelessWidget {
@@ -19,7 +20,7 @@ class IngredientsLittlePreview extends StatelessWidget {
             Align(
               widthFactor: .8,
               child: CachedNetworkImage(
-                imageUrl: getImgUrl(
+                imageUrl: Api.getImgUrl(
                   ingredients[i].name,
                 ),
                 imageBuilder: (context, imageProvider) {
@@ -60,10 +61,5 @@ class IngredientsLittlePreview extends StatelessWidget {
         ],
       ],
     );
-  }
-
-  String getImgUrl(String ingredient) {
-    final urlify = ingredient.replaceAll(' ', '%20');
-    return 'https://www.thecocktaildb.com/images/ingredients/$urlify-Small.png';
   }
 }

@@ -39,29 +39,36 @@ class CategoriesHorizontalList extends StatelessWidget {
 
                   final category = state.categories[index];
 
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(
-                      left: index == 0 ? 30 : 0,
-                      right: index == state.categories.length - 1 ? 30 : 15,
-                    ),
-                    child: Text(
-                      category,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color:
-                            selected == category ? Colors.white : Colors.black,
+                  return GestureDetector(
+                    onTap: () {
+                      cocktailsBloc.add(CocktailsGetDrinksByCategory(
+                        category: category,
+                      ));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                      color: selected == category ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                        left: index == 0 ? 30 : 0,
+                        right: index == state.categories.length - 1 ? 30 : 15,
+                      ),
+                      child: Text(
+                        category,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color:
+                              selected == category ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: selected == category ? Colors.black : Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        ),
                       ),
                     ),
                   );

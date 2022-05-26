@@ -24,3 +24,11 @@ class CocktailsGetDrinkById extends CocktailsEvent {
 
   final String id;
 }
+
+class CocktailsGetWantedDrinks extends CocktailsEvent {
+  const CocktailsGetWantedDrinks({
+    required this.key,
+  });
+
+  final String key;
+}
