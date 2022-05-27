@@ -1,16 +1,24 @@
-# flutter_cocktail_app
+## Cocktail App
+## Recipe App
 
-A new Flutter project.
+Flutter Bloc Application with Clean Architecture
 
-## Getting Started
+## Development Setup
+Clone the repository and run the following commands:
+```
+flutter pub get
+flutter run
+```
+## Screenshots
 
-This project is a starting point for a Flutter application.
+### Home Views
+<img src="screenshots/home.png" height="400"/> <img src="screenshots/home_2.png" height="400"/>
 
-A few resources to get you started if this is your first Flutter project:
+### Search View
+<img src="screenshots/search.png" height="400"/>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Drink Detail Views
+<img src="screenshots/detail.png" height="400"/> <img src="screenshots/detail_2.png" height="400"/>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Api
+* [The CocktailDB](https://www.thecocktaildb.com/api.php)
