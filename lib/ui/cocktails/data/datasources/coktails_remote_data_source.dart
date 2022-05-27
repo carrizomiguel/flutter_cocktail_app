@@ -18,6 +18,10 @@ abstract class CocktailsRemoteDataSource {
 }
 
 class CocktailsRemoteDataSourceImpl implements CocktailsRemoteDataSource {
+  CocktailsRemoteDataSourceImpl({required this.client});
+
+  final http.Client client;
+
   String authority = Api.authority;
   String list = Api.list;
   String filter = Api.filter;
@@ -26,12 +30,9 @@ class CocktailsRemoteDataSourceImpl implements CocktailsRemoteDataSource {
 
   @override
   Future<List<String>> getCategories() async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.https(authority, list, {'c': 'list'}),
     );
-    // ignore: avoid_print
-    print(
-        'CATEGORIES RESPONSE ===> status: ${response.statusCode} - body: ${response.body}');
     switch (response.statusCode) {
       case 200:
         final decoded = json.decode(response.body);
@@ -48,12 +49,9 @@ class CocktailsRemoteDataSourceImpl implements CocktailsRemoteDataSource {
   Future<List<ShortDrinkModel>> getDrinksByCategory(
     String category,
   ) async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.https(authority, filter, {'c': category}),
     );
-    // ignore: avoid_print
-    print(
-        'DRINKS RESPONSE ===> status: ${response.statusCode} - body: ${response.body}');
     switch (response.statusCode) {
       case 200:
         final decoded = json.decode(response.body);
@@ -68,12 +66,9 @@ class CocktailsRemoteDataSourceImpl implements CocktailsRemoteDataSource {
 
   @override
   Future<DrinkModel> getDrinkById(String id) async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.https(authority, lookup, {'i': id}),
     );
-    // ignore: avoid_print
-    print(
-        'DRINK BY ID RESPONSE ===> status: ${response.statusCode} - body: ${response.body}');
     switch (response.statusCode) {
       case 200:
         final decoded = json.decode(response.body);
@@ -88,12 +83,9 @@ class CocktailsRemoteDataSourceImpl implements CocktailsRemoteDataSource {
 
   @override
   Future<List<ShortDrinkModel>> getWantedDrinks(String key) async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.https(authority, search, {'s': key}),
     );
-    // ignore: avoid_print
-    print(
-        'DRINK BY NAME RESPONSE ===> status: ${response.statusCode} - body: ${response.body}');
     switch (response.statusCode) {
       case 200:
         final decoded = json.decode(response.body);

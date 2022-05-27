@@ -28,6 +28,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  mocktail: ^0.2.0
+
   flutter_lints: ^1.0.0
 
 flutter:
