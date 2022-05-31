@@ -9,6 +9,11 @@ Clone the repository and run the following commands:
 flutter pub get
 flutter run
 ```
+## Flutter Version
+```
+Flutter SDK Version: 3.0.1
+```
+
 ## Screenshots
 
 ### Home Views

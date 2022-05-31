@@ -17,12 +17,12 @@ dependencies:
   http: ^0.13.4
   oxidized: ^5.2.0
   equatable: ^2.0.3
-  connectivity_plus: ^2.3.0
+  connectivity_plus: ^2.3.1
   google_fonts: ^3.0.1
   flutter_bloc: ^8.0.1
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.1
   shimmer: ^2.0.0
-  animations: ^2.0.2
+  animations: ^2.0.3
 
 dev_dependencies:
   flutter_test:
