@@ -31,7 +31,10 @@ void main() {
       () => mockNetworkInfo.isConnected,
     ).thenAnswer((_) async => true);
 
+    final result = await mockNetworkInfo.isConnected;
+
     verify(() => mockNetworkInfo.isConnected);
+    expect(result, true);
   });
 
   group('device is online', () {
