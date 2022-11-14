@@ -1,3 +1,4 @@
+import 'package:flutter_cocktail_app/core/error/exceptions.dart';
 import 'package:flutter_cocktail_app/core/network/network_info.dart';
 import 'package:flutter_cocktail_app/ui/cocktails/data/datasources/coktails_remote_data_source.dart';
 import 'package:flutter_cocktail_app/ui/cocktails/data/models/drink_model.dart';
@@ -26,7 +27,7 @@ void main() {
     );
   });
 
-  test('should check if the device is online', () async {
+  test('should return true when is online', () async {
     when(
       () => mockNetworkInfo.isConnected,
     ).thenAnswer((_) async => true);
@@ -44,94 +45,235 @@ void main() {
       ).thenAnswer((_) async => true);
     });
 
-    test('getCategories', () async {
-      final tCategories = ['', ''];
+    group('success responses', () {
+      test('should return categories when getCategories called', () async {
+        final tCategories = ['', ''];
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getCategories(),
+        ).thenAnswer((_) async => tCategories);
+        // Act
+        final result = await repository.getCategories();
+        // Assert
+        verify(() => mockRemoteDataSource.getCategories());
+        expect(result, isA<Ok>());
+      });
+
+      test('should return drinks when getDrinksByCategory called', () async {
+        const tCategory = 'Cocktail';
+        final tDrinks = [
+          ShortDrinkModel(
+            idDrink: '0',
+            strDrink: '',
+            strDrinkThumb: '',
+          ),
+        ];
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getDrinksByCategory(
+            tCategory,
+          ),
+        ).thenAnswer((_) async => tDrinks);
+        // Act
+        final result = await repository.getDrinksByCategory(
+          tCategory,
+        );
+        // Assert
+        verify(() => mockRemoteDataSource.getDrinksByCategory(tCategory));
+        expect(result, isA<Ok>());
+      });
+
+      test('should return drink when getDrinkById called', () async {
+        const tIdDrink = '15346';
+        final tDrink = DrinkModel(
+          idDrink: '',
+          strDrink: '',
+          strDrinkAlternate: '',
+          strCategory: '',
+          strAlcoholic: '',
+          strGlass: '',
+          strInstructions: '',
+          strDrinkThumb: '',
+          ingredients: [],
+          strCreativeCommonsConfirmed: '',
+        );
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getDrinkById(
+            tIdDrink,
+          ),
+        ).thenAnswer((_) async => tDrink);
+        // Act
+        final result = await repository.getDrinkById(
+          tIdDrink,
+        );
+        // Assert
+        verify(() => mockRemoteDataSource.getDrinkById(tIdDrink));
+        expect(result, isA<Ok>());
+      });
+
+      test('should return drink when getWantedDrinks called', () async {
+        const tSearchKey = 'Margarita';
+        final tDrinks = [
+          ShortDrinkModel(
+            idDrink: '0',
+            strDrink: '',
+            strDrinkThumb: '',
+          ),
+        ];
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getWantedDrinks(
+            tSearchKey,
+          ),
+        ).thenAnswer((_) async => tDrinks);
+        // Act
+        final result = await repository.getWantedDrinks(
+          tSearchKey,
+        );
+        // Assert
+        verify(() => mockRemoteDataSource.getWantedDrinks(tSearchKey));
+        expect(result, isA<Ok>());
+      });
+    });
+
+    group('error responses', () {
+      test('should fail in getCategories for BadRequest', () async {
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getCategories(),
+        ).thenThrow(BadRequestException());
+        // Act
+        final result = await repository.getCategories();
+        // Assert
+        verify(() => mockRemoteDataSource.getCategories());
+        expect(result, isA<Err>());
+      });
+
+      test('should fail in getDrinksByCategory for BadRequest', () async {
+        const tCategory = 'Cocktail';
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getDrinksByCategory(
+            tCategory,
+          ),
+        ).thenThrow(BadRequestException());
+        // Act
+        final result = await repository.getDrinksByCategory(
+          tCategory,
+        );
+        // Assert
+        verify(() => mockRemoteDataSource.getDrinksByCategory(tCategory));
+        expect(result, isA<Err>());
+      });
+
+      test('should return drink when getDrinkById called', () async {
+        const tIdDrink = '15346';
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getDrinkById(
+            tIdDrink,
+          ),
+        ).thenThrow(BadRequestException());
+        // Act
+        final result = await repository.getDrinkById(
+          tIdDrink,
+        );
+        // Assert
+        verify(() => mockRemoteDataSource.getDrinkById(tIdDrink));
+        expect(result, isA<Err>());
+      });
+
+      test('should return drink when getWantedDrinks called', () async {
+        const tSearchKey = 'Margarita';
+        // Arrange
+        when(
+          () => mockRemoteDataSource.getWantedDrinks(
+            tSearchKey,
+          ),
+        ).thenThrow(BadRequestException());
+        // Act
+        final result = await repository.getWantedDrinks(
+          tSearchKey,
+        );
+        // Assert
+        verify(() => mockRemoteDataSource.getWantedDrinks(tSearchKey));
+        expect(result, isA<Err>());
+      });
+    });
+  });
+
+  test('should return false when is not online', () async {
+    when(
+      () => mockNetworkInfo.isConnected,
+    ).thenAnswer((_) async => false);
+
+    final result = await mockNetworkInfo.isConnected;
+
+    verify(() => mockNetworkInfo.isConnected);
+    expect(result, false);
+  });
+
+  group('device is not online', () {
+    test('should fail in getCategories for ConnectionFailure', () async {
       // Arrange
       when(
-        () => mockRemoteDataSource.getCategories(),
-      ).thenAnswer((_) async => tCategories);
+        () => mockNetworkInfo.isConnected,
+      ).thenAnswer((_) async => false);
       // Act
       final result = await repository.getCategories();
       // Assert
-      verify(() => mockRemoteDataSource.getCategories());
-      expect(result, isA<Ok>());
+      verifyZeroInteractions(mockRemoteDataSource);
+      verify(() => mockNetworkInfo.isConnected);
+      expect(result, isA<Err>());
     });
 
-    test('getDrinksByCategory', () async {
+    test('should fail in getDrinksByCategory for ConnectionFailure', () async {
       const tCategory = 'Cocktail';
-      final tDrinks = [
-        ShortDrinkModel(
-          idDrink: '0',
-          strDrink: '',
-          strDrinkThumb: '',
-        ),
-      ];
       // Arrange
       when(
-        () => mockRemoteDataSource.getDrinksByCategory(
-          tCategory,
-        ),
-      ).thenAnswer((_) async => tDrinks);
+        () => mockNetworkInfo.isConnected,
+      ).thenAnswer((_) async => false);
       // Act
       final result = await repository.getDrinksByCategory(
         tCategory,
       );
       // Assert
-      verify(() => mockRemoteDataSource.getDrinksByCategory(tCategory));
-      expect(result, isA<Ok>());
+      verifyZeroInteractions(mockRemoteDataSource);
+      verify(() => mockNetworkInfo.isConnected);
+      expect(result, isA<Err>());
     });
 
-    test('getDrinkById', () async {
+    test('should fail in getDrinkById for ConnectionFailure', () async {
       const tIdDrink = '15346';
-      final tDrink = DrinkModel(
-        idDrink: '',
-        strDrink: '',
-        strDrinkAlternate: '',
-        strCategory: '',
-        strAlcoholic: '',
-        strGlass: '',
-        strInstructions: '',
-        strDrinkThumb: '',
-        ingredients: [],
-        strCreativeCommonsConfirmed: '',
-      );
       // Arrange
       when(
-        () => mockRemoteDataSource.getDrinkById(
-          tIdDrink,
-        ),
-      ).thenAnswer((_) async => tDrink);
+        () => mockNetworkInfo.isConnected,
+      ).thenAnswer((_) async => false);
       // Act
       final result = await repository.getDrinkById(
         tIdDrink,
       );
       // Assert
-      verify(() => mockRemoteDataSource.getDrinkById(tIdDrink));
-      expect(result, isA<Ok>());
+      verifyZeroInteractions(mockRemoteDataSource);
+      verify(() => mockNetworkInfo.isConnected);
+      expect(result, isA<Err>());
     });
 
-    test('getWantedDrinks', () async {
+    test('should fail in getWantedDrinks for ConnectionFailure', () async {
       const tSearchKey = 'Margarita';
-      final tDrinks = [
-        ShortDrinkModel(
-          idDrink: '0',
-          strDrink: '',
-          strDrinkThumb: '',
-        ),
-      ];
       // Arrange
       when(
-        () => mockRemoteDataSource.getWantedDrinks(
-          tSearchKey,
-        ),
-      ).thenAnswer((_) async => tDrinks);
+        () => mockNetworkInfo.isConnected,
+      ).thenAnswer((_) async => false);
       // Act
       final result = await repository.getWantedDrinks(
         tSearchKey,
       );
       // Assert
-      verify(() => mockRemoteDataSource.getWantedDrinks(tSearchKey));
-      expect(result, isA<Ok>());
+      verifyZeroInteractions(mockRemoteDataSource);
+      verify(() => mockNetworkInfo.isConnected);
+      expect(result, isA<Err>());
     });
   });
 }

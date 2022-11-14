@@ -100,7 +100,7 @@ class DrinkPreviewContent extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 elevation: 0,
-                primary: Colors.white,
+                backgroundColor: Colors.white,
                 side: const BorderSide(
                   color: Colors.black,
                   width: 1,
