@@ -20,7 +20,7 @@ class CocktailsBloc extends Bloc<CocktailsEvent, CocktailsState> {
   final CocktailsRepository repository;
 
   String categorySelected = '';
-  ShortDrinkModel drinkPreviewSelected = ShortDrinkModel.empty();
+  ShortDrinkModel drinkPreviewSelected = const ShortDrinkModel.empty();
   List<ShortDrinkModel> wantedDrinks = [];
 
   void _onGetCategories(

@@ -1,30 +1,22 @@
-import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
-List<ShortDrinkModel> shortDrinkModelFromJson(String str) =>
-    List<ShortDrinkModel>.from(
-        json.decode(str).map((x) => ShortDrinkModel.fromJson(x)));
-
-String shortDrinkModelToJson(List<ShortDrinkModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-class ShortDrinkModel {
-  ShortDrinkModel({
+class ShortDrinkModel extends Equatable {
+  const ShortDrinkModel({
     required this.strDrink,
     required this.strDrinkThumb,
     required this.idDrink,
   });
 
-  String strDrink;
-  String strDrinkThumb;
-  String idDrink;
+  final String strDrink;
+  final String strDrinkThumb;
+  final String idDrink;
 
-  static ShortDrinkModel empty() {
-    return ShortDrinkModel(
-      strDrink: '',
-      strDrinkThumb: '',
-      idDrink: '',
-    );
-  }
+  const ShortDrinkModel.empty()
+      : this(
+          strDrink: '',
+          strDrinkThumb: '',
+          idDrink: '',
+        );
 
   factory ShortDrinkModel.fromJson(Map<String, dynamic> json) =>
       ShortDrinkModel(
@@ -33,9 +25,10 @@ class ShortDrinkModel {
         idDrink: json["idDrink"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "strDrink": strDrink,
-        "strDrinkThumb": strDrinkThumb,
-        "idDrink": idDrink,
-      };
+  @override
+  List<Object?> get props => [
+        strDrink,
+        strDrinkThumb,
+        idDrink,
+      ];
 }

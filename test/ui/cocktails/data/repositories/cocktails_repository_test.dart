@@ -62,7 +62,7 @@ void main() {
       test('should return drinks when getDrinksByCategory called', () async {
         const tCategory = 'Cocktail';
         final tDrinks = [
-          ShortDrinkModel(
+          const ShortDrinkModel(
             idDrink: '0',
             strDrink: '',
             strDrinkThumb: '',
@@ -85,7 +85,7 @@ void main() {
 
       test('should return drink when getDrinkById called', () async {
         const tIdDrink = '15346';
-        final tDrink = DrinkModel(
+        const tDrink = DrinkModel(
           idDrink: '',
           strDrink: '',
           strDrinkAlternate: '',
@@ -115,7 +115,7 @@ void main() {
       test('should return drink when getWantedDrinks called', () async {
         const tSearchKey = 'Margarita';
         final tDrinks = [
-          ShortDrinkModel(
+          const ShortDrinkModel(
             idDrink: '0',
             strDrink: '',
             strDrinkThumb: '',

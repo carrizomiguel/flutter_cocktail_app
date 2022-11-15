@@ -1,11 +1,7 @@
-import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
-DrinkModel drinkFromJson(String str) => DrinkModel.fromJson(json.decode(str));
-
-String drinkToJson(DrinkModel data) => json.encode(data.toJson());
-
-class DrinkModel {
-  DrinkModel({
+class DrinkModel extends Equatable {
+  const DrinkModel({
     required this.idDrink,
     required this.strDrink,
     required this.strDrinkAlternate,
@@ -23,21 +19,21 @@ class DrinkModel {
     required this.strCreativeCommonsConfirmed,
   });
 
-  String idDrink;
-  String strDrink;
-  dynamic strDrinkAlternate;
-  String? strTags;
-  String? strVideo;
-  String strCategory;
-  String? strIba;
-  String strAlcoholic;
-  String strGlass;
-  String strInstructions;
-  String strDrinkThumb;
-  List<Ingredient> ingredients;
-  String? strImageSource;
-  String? strImageAttribution;
-  String strCreativeCommonsConfirmed;
+  final String idDrink;
+  final String strDrink;
+  final dynamic strDrinkAlternate;
+  final String? strTags;
+  final String? strVideo;
+  final String strCategory;
+  final String? strIba;
+  final String strAlcoholic;
+  final String strGlass;
+  final String strInstructions;
+  final String strDrinkThumb;
+  final List<Ingredient> ingredients;
+  final String? strImageSource;
+  final String? strImageAttribution;
+  final String strCreativeCommonsConfirmed;
 
   factory DrinkModel.fromJson(Map<String, dynamic> json) {
     List<Ingredient> ingredients = [];
@@ -69,31 +65,38 @@ class DrinkModel {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "idDrink": idDrink,
-        "strDrink": strDrink,
-        "strDrinkAlternate": strDrinkAlternate,
-        "strTags": strTags,
-        "strVideo": strVideo,
-        "strCategory": strCategory,
-        "strIBA": strIba,
-        "strAlcoholic": strAlcoholic,
-        "strGlass": strGlass,
-        "strInstructions": strInstructions,
-        "strDrinkThumb": strDrinkThumb,
-        "ingredients": ingredients,
-        "strImageSource": strImageSource,
-        "strImageAttribution": strImageAttribution,
-        "strCreativeCommonsConfirmed": strCreativeCommonsConfirmed,
-      };
+  @override
+  List<Object?> get props => [
+        idDrink,
+        strDrink,
+        strDrinkAlternate,
+        strTags,
+        strVideo,
+        strCategory,
+        strIba,
+        strAlcoholic,
+        strGlass,
+        strInstructions,
+        strDrinkThumb,
+        ingredients,
+        strImageSource,
+        strImageAttribution,
+        strCreativeCommonsConfirmed,
+      ];
 }
 
-class Ingredient {
-  Ingredient({
+class Ingredient extends Equatable {
+  const Ingredient({
     required this.name,
     this.measure,
   });
 
   final String name;
   final String? measure;
+
+  @override
+  List<Object?> get props => [
+        name,
+        measure,
+      ];
 }
